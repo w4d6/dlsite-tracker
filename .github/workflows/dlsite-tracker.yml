@@ -2,12 +2,14 @@ name: DLsite Tracker
 
 on:
   schedule:
-    - cron: '0 0 * * *'  # 毎日9:00 JST
+    - cron: '0 0 * * *'  # 毎日9:00 JST (0:00 UTC)
   workflow_dispatch:
 
 jobs:
   track:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
 
     steps:
       - uses: actions/checkout@v4
@@ -20,15 +22,7 @@ jobs:
         run: pip install requests
 
       - name: Fetch DLsite data
-        run: python fetch_dlsite.py > data/latest.csv
-
-      - name: Append to history
-        run: |
-          mkdir -p data
-          if [ ! -f data/history.csv ]; then
-            head -1 data/latest.csv > data/history.csv
-          fi
-          tail -n +2 data/latest.csv >> data/history.csv
+        run: python fetch_dlsite.py
 
       - name: Commit and push
         run: |
