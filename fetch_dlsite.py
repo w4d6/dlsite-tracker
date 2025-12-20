@@ -110,12 +110,20 @@ def main():
             url = f"https://www.dlsite.com/maniax/{'announce' if is_announce else 'work'}/=/product_id/{product_id}.html"
             dl_count = info.get("dl_count")
 
+            # Pre-sale (announce) items don't have sales data yet
+            if is_announce:
+                dl_count_display = "販売開始前"
+            elif dl_count is not None:
+                dl_count_display = dl_count
+            else:
+                dl_count_display = "N/A"
+
             record = {
                 "date": today,
                 "title": info.get("work_name", "Unknown"),
                 "url": url,
                 "wishlist_count": info.get("wishlist_count", 0),
-                "dl_count": dl_count if dl_count is not None else "N/A",
+                "dl_count": dl_count_display,
             }
             records.append(record)
             print(f"Fetched: {record['title']}")
