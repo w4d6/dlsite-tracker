@@ -2,7 +2,7 @@ name: DLsite Tracker
 
 on:
   schedule:
-    - cron: '0 0 * * *'  # 毎日9:00 JST (0:00 UTC)
+    - cron: '0 1 * * *'  # 毎日10:00 JST (1:00 UTC)
   workflow_dispatch:
 
 jobs:
