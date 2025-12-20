@@ -19,16 +19,21 @@ SHEET_NAME = "シート1"
 
 def get_google_sheets_client():
     """Initialize Google Sheets client with service account credentials."""
-    creds_json = os.environ.get("GOOGLE_CREDENTIALS")
-    if not creds_json:
-        raise ValueError("GOOGLE_CREDENTIALS environment variable not set")
-
-    creds_dict = json.loads(creds_json)
     scopes = [
         "https://www.googleapis.com/auth/spreadsheets",
         "https://www.googleapis.com/auth/drive",
     ]
-    credentials = Credentials.from_service_account_info(creds_dict, scopes=scopes)
+
+    creds_json = os.environ.get("GOOGLE_CREDENTIALS")
+    if creds_json:
+        # Use environment variable (for GitHub Actions)
+        creds_dict = json.loads(creds_json)
+        credentials = Credentials.from_service_account_info(creds_dict, scopes=scopes)
+    else:
+        # Use Application Default Credentials (for local development)
+        import google.auth
+        credentials, _ = google.auth.default(scopes=scopes)
+
     return gspread.authorize(credentials)
 
 
