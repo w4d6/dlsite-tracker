@@ -8,7 +8,6 @@ on:
 jobs:
   track:
     runs-on: ubuntu-latest
-    environment: GOOGLE_CREDENTIALS
     permissions:
       contents: write
 
