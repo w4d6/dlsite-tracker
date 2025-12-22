@@ -13,6 +13,7 @@ concurrency:
 jobs:
   fetch-sales:
     runs-on: ubuntu-latest
+    environment: GOOGLE_CREDENTIALS
 
     steps:
       - uses: actions/checkout@v4

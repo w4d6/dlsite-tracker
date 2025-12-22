@@ -8,6 +8,7 @@ on:
 jobs:
   track:
     runs-on: ubuntu-latest
+    environment: GOOGLE_CREDENTIALS
     permissions:
       contents: write
 
@@ -22,6 +23,8 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Fetch DLsite data
+        env:
+          GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
         run: python fetch_dlsite.py
 
       - name: Commit and push
