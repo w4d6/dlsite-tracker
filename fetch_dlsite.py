@@ -4,7 +4,7 @@
 import argparse
 import json
 import os
-from datetime import datetime
+from datetime import datetime, timezone, timedelta
 import requests
 import gspread
 from google.oauth2.service_account import Credentials
@@ -95,7 +95,9 @@ def main():
     mode_names = {"wishlist": "お気に入り数", "sales": "販売数", "all": "全データ"}
     print(f"Mode: {mode_names[mode]}")
 
-    now = datetime.now()
+    # Use JST (UTC+9)
+    jst = timezone(timedelta(hours=9))
+    now = datetime.now(jst)
     today = now.strftime("%Y-%m-%d")
     current_time = now.strftime("%H:%M:%S")
 
