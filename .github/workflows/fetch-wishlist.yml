@@ -2,8 +2,8 @@ name: Fetch Wishlist Count
 
 on:
   schedule:
-    # Run at 23:00 JST (14:00 UTC) daily
-    - cron: '0 14 * * *'
+    # Run at 11:00 JST (02:00 UTC) daily
+    - cron: '0 2 * * *'
   workflow_dispatch:
 
 concurrency:

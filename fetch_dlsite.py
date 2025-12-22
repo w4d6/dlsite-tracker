@@ -50,7 +50,7 @@ def write_to_sheet(records: list[dict], mode: str):
     # Check if header exists
     existing_data = worksheet.get_all_values()
     if not existing_data:
-        header = ["実行日付", "タイトル", "URL", "お気に入り数", "販売数", "取得種別"]
+        header = ["実行日付", "タイトル", "URL", "お気に入り数", "販売数", "取得種別", "実行時間"]
         worksheet.append_row(header)
 
     # Append each record
@@ -75,6 +75,7 @@ def write_to_sheet(records: list[dict], mode: str):
             wishlist_val,
             dl_val,
             source,
+            record["time"],
         ]
         worksheet.append_row(row)
         print(f"Added: {record['title']} ({source})")
@@ -94,7 +95,9 @@ def main():
     mode_names = {"wishlist": "お気に入り数", "sales": "販売数", "all": "全データ"}
     print(f"Mode: {mode_names[mode]}")
 
-    today = datetime.now().strftime("%Y-%m-%d")
+    now = datetime.now()
+    today = now.strftime("%Y-%m-%d")
+    current_time = now.strftime("%H:%M:%S")
 
     # Fetch all products in one request
     params = [("product_id[]", pid) for pid in PRODUCT_IDS]
@@ -124,6 +127,7 @@ def main():
                 "url": url,
                 "wishlist_count": info.get("wishlist_count", 0),
                 "dl_count": dl_count_display,
+                "time": current_time,
             }
             records.append(record)
             print(f"Fetched: {record['title']}")
